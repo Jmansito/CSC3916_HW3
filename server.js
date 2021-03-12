@@ -1,5 +1,5 @@
 /*
-CSC3916 HW2
+CSC3916 HW3
 File: Server.js
 Description: Web API scaffolding for Movie API
  */
@@ -84,6 +84,35 @@ router.post('/signin', function (req, res) {
         })
     })
 });
+
+router.route('/movies')
+    .get(function (req, res){
+        res.status(200).send({success: true, msg: 'GET movies'});
+    })
+    .post(function (req, res){
+        res.status(200).send({success: true, msg: 'movie saved'});
+    })
+    .delete(authController.isAuthenticated, function(req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+                res.status(200).send({success: true, msg: 'movie deleted'});
+            }
+            var o = getJSONObjectForMovieRequirement(req);
+            res.json(o);
+        }
+    )
+    .put(authJwtController.isAuthenticated, function(req, res) {
+        console.log(req.body);
+        res = res.status(200);
+        if (req.get('Content-Type')) {
+            res = res.type(req.get('Content-Type'));
+            res.status(200).send({success: true, msg: 'movie updated'});
+        }
+        var o = getJSONObjectForMovieRequirement(req);
+        res.json(o);
+    });
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
