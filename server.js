@@ -126,7 +126,7 @@ router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
         Movies.find(function (err, movie) {
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
-            res.json(movie);
+            res.json(movie).sort({title:1});
         })
     })
 
