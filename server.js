@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
-var Movies = require('./Movies');
+var Movies = require('./movies');
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
@@ -89,7 +89,7 @@ router.post('/signin', function(req, res) {
 
 //routing for movies
 
-router.route('/Movies')
+router.route('/movies')
     //Post route to enter in and save a movie
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
@@ -142,7 +142,7 @@ router.route('/Movies')
     });
 
 //Next GET route for finding a movie by it's id
-router.route('/Movies/:movieid')
+router.route('/movies/:movieid')
 
     //Required authentication for movie id.
     .get(authJwtController.isAuthenticated, function (req, res) {
@@ -156,7 +156,7 @@ router.route('/Movies/:movieid')
     });
 
 //New route for PUT. Updating a movie
-router.route('/Movies/:id')
+router.route('/movies/:id')
 
     //Required authentication for movie id
     .put(authJwtController.isAuthenticated, function (req, res) {
