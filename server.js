@@ -84,10 +84,17 @@ router.post('/signin', function (req, res) {
         })
     })
 });
+let db;
 
 router.route('/movies')
     .get(function (req, res){
+        console.log(req.body)
+        db.collection('Movies').find({}).toArray((err, data)=>{
+            if(err)throw err;
+            res.status(200).json(data);
+        });
         res.status(200).send({success: true, msg: 'GET movies'});
+
     })
     .post(function (req, res){
         res.status(200).send({success: true, msg: 'movie saved'});
