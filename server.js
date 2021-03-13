@@ -110,7 +110,7 @@ router.route('/movies')
 
             else if(found){res.json({message: "The movie you entered is already in the database\n"});}
             //Error if three actors are not entered per requirements
-     //       else if (movie.actorName.length < 3 || movie.actorCharacter.length < 3 ){res.json({message: "Please enter in 3 actors\n"});}
+            else if (movie.actorName.length < 3 || movie.actorCharacter.length < 3 ){res.json({message: "Please enter in 3 actors\n"});}
             else{
                 movie.save(function (err) {
                     if(err){res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});}

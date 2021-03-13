@@ -21,8 +21,8 @@ var MovieSchema = new Schema({
    // title:{type:String},
     title:{type:String,required:true,index:{unique:true}},
 
-    //Year of the movie accepts a date
-    year_Released:{type:Date, required:true},
+    //Year of the movie accepts a number since the dates were just a year
+    year_Released:{type:Number, required:true},
 
     //Genre follows the requirements of the this list. May change to accept a string instead of this array in case there are other categories not on this list
     genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller', 'Western'] },
