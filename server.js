@@ -182,11 +182,13 @@ router.route('/Movies/:id')
     });
 
 //All other routes and methods will throw error
+/*
 router.all('*', function(req, res) {
     res.json({
         error: 'Your HTTP method is not supported and requires a fix.'
     });
 });
+*/
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
