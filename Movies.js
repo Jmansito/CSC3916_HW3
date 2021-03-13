@@ -28,8 +28,9 @@ var MovieSchema = new Schema({
     genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller', 'Western'] },
 
     //actors: actorName and actorCharacter... I was having trouble making them work as just actors
-    actorName: { type: String,required: true },
-    actorCharacter: { type: String,required: true }
+    actorName: { type: [String],required: true },
+    actorCharacter: { type: [String],required: true }
+
 });
 
 
