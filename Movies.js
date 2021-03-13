@@ -25,10 +25,11 @@ var MovieSchema = new Schema({
     year_Released:{type:Date, required:true},
 
     //Genre follows the requirements of the this list. May change to accept a string instead of this array in case there are other categories not on this list
-    genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Thriller', 'Western'] },
+    genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller', 'Western'] },
 
-    //actors takes two string arrays for the actor name and the character name.
-    actors: { type: [{actorName: String, characterName: String}], required: true }
+    //actors: actorName and actorCharacter... I was having trouble making them work as just actors
+    actorName: { type: String,required: true },
+    actorCharacter: { type: String,required: true }
 });
 
 
