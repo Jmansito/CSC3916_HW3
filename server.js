@@ -99,11 +99,25 @@ router.route('/movies')
         movie.genre = req.body.genre;
         movie.actors = req.body.actors;
 
+        movie.save(function(err){
+            if (err) {
+                if (err.code === 11000)
+                    return res.json({ success: false, message: 'A movie with that title already exists.'});
+                else
+                    return res.json(err);
+
+            }
+            else if (movie.actors.length < 3){res.json({message: "Please enter in 3 actors\n"});}
+
+            res.json({success: true, msg: 'Successfully entered new movie.'})
+        });
+/*
         //check if movies exist, maybe error or it has <3 errors.
         Movies.findOne({title: req.body.title}, function(err, found){
             //Throw error if error
             if(err){res.json({message: "Read error \n", error: err});}
             //if found then throw error, no repeats
+
             else if(found){res.json({message: "The movie you entered is already in the database\n"});}
             //Error if three actors are not entered per requirements
             else if (movie.actors.length < 3){res.json({message: "Please enter in 3 actors\n"});}
@@ -115,7 +129,7 @@ router.route('/movies')
                     else{res.json({message: "The movie has been saved to the database.\n"});}
                 })
             }
-        });
+        });*/
     })
 
     //GET route to find all movies
