@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
-var Movies = require('./movies');
+var Movies = require('./Movies');
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
