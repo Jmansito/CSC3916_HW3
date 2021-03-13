@@ -126,7 +126,10 @@ router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
         Movies.find(function (err, movie) {
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
-            res.json(movie).sort({title:1});
+
+            //I tried using .sort() using sort to try and fix the out of order printing my database is doing.
+            //I am not sure what is causing it to print out of order
+            res.json(movie);
         })
     })
 
