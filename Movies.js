@@ -18,7 +18,8 @@ mongoose.set('useCreateIndex', true);
 var MovieSchema = new Schema({
 
     //Title of movie, string, must be a unique entry to avoid repeats
-    title:{type:String,required:true,index:{unique:true}},
+    title:{type:String},
+  //  title:{type:String,required:true,index:{unique:true}},
 
     //Year of the movie accepts a date
     year_Released:{type:Date, required:true},
