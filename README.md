@@ -1,5 +1,7 @@
 # CSC3916_HW3
 
+I was having an issue with the HW5 app crashing when trying to signup/signin and it was only happening sometimes. I reset dynos and it worked for me. So I am hoping it isn't having that issue anymore. Status of postman: All tests working. Two tests making sure it throws errors for duplicate user signup info and incorrect info for adding a movie. 
+
 Link for hw5 Heroku: https://csc3916-hw05-2021.herokuapp.com
 
 
