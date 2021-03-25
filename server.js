@@ -218,7 +218,7 @@ router.route('/reviews')
                     const review = new Reviews();
 
                  //   review.name = decoded.username;
-                    review.movieid = req.body.movieid;
+                    review.title = req.body.title;
                     review.comment = req.body.comment;
                     review.rating = req.body.rating;
 
