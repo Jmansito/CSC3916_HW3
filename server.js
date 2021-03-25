@@ -218,8 +218,7 @@ router.route('/reviews')
         const conditions = {_id: req.params.id};
         const review = new Reviews();
 
-      //  review.movieid = req.body.movieid;
-        review.reviewerName = req.body.reviewerName;
+        review.movieid = req.body.movieid;
         review.comment = req.body.comment;
         review.rating = req.body.rating;
 

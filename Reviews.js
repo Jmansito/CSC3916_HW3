@@ -17,8 +17,8 @@ mongoose.set('useCreateIndex', true);
 //Making review schema with requirements for each parameter
 var ReviewSchema = new Schema({
 
-    //Name of the reviewer
-    reviewerName:{type:String,required:true,index:{unique:true}},
+    //id of the move
+    movieid:{type:String,required:true,index:{unique:true}},
     //Review for the movie
     comment:{type:String, required:true},
     //Rating for the movie
