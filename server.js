@@ -211,7 +211,7 @@ router.route('/reviews')
       //  let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
 
         let title = req.body.title;
-        Movies.findById(title, function(err, found) {
+        Movies.findOne(title, function(err, found) {
                 if (err) {
                     res.json({message: "Read error, Please try again \n", error: err});
                 } else if (found) {
