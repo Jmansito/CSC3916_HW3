@@ -192,14 +192,6 @@ router.route('/movies/:id')
 
 //Routes for reviews
 router.route('/reviews')
-    //GET route to find all reviews
-    .get(authJwtController.isAuthenticated, function (req, res) {
-        Reviews.find(function (err, review) {
-            if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
-
-            res.json(review);
-        })
-    })
 
     //get looking for specific movie
     .get(authJwtController.isAuthenticated, function (req,res){
@@ -215,36 +207,34 @@ router.route('/reviews')
 
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
-        const conditions = {_id: req.params.id};
-        const review = new Reviews();
+        let id = req.body.movieid;
+        let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
+        Movies.findById(id, function(err, found) {
+                if (err) {
+                    res.json({message: "Read error, Please try again \n", error: err});
+                } else if (found) {
+                    const review = new Reviews();
 
-        review.movieid = req.body.movieid;
-        review.comment = req.body.comment;
-        review.rating = req.body.rating;
+                    review.name = decoded.username;
+                    review.movieid = req.body.movieid;
+                    review.comment = req.body.comment;
+                    review.rating = req.body.rating;
 
+                    review.save(function (err) {
+                        if (err) {
+                            res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});
+                            }else {
+                            Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
+                                if (err) {
+                                    res.status(404).json({message: "Read error."});
+                                }
+                                //Else, enter in the review
+                                else{res.json({message: "The review has been saved to the database.\n"});}
+                            })
+                        }
 
-        Reviews.updateOne(conditions, req.body)
-        Movies.findOne({movieid: req.body.movieid}, function(err, found) {
-
-            if (err) {
-                res.json({message: "Read error, Please try again \n", error: err});
-            }
-            else
-                {
-                review.save(function (err) {
-                    if (err) {
-                        res.json({
-                            message: "Please double check your entry, something was not entered correctly.\n",
-                            error: err
-                        });
-                    }
-
-                    //Else, enter in the review
-                    else {
-                        res.json({message: "The review has been saved to the database.\n"});
-                    }
-                })
-            }
+                    })
+                }
         })
     });
 
