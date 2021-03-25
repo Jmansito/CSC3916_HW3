@@ -14,6 +14,8 @@ var authJwtController = require('./auth_jwt');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var User = require('./Users');
+var Movies = require('./Movies');
+var Reviews = require('./Reviews');
 
 var app = express();
 app.use(cors());
@@ -23,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
-var Movies = require('./Movies');
+
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
@@ -54,7 +56,7 @@ router.post('/signup', function(req, res) {
 
         user.save(function(err){
             if (err) {
-                if (err.code == 11000)
+                if (err.code === 11000)
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 else
                     return res.json(err);
@@ -186,6 +188,44 @@ router.route('/movies/:id')
                     .catch(err => console.log(err))
             }
         })
+    });
+
+//Routes for reviews
+router.route('/reviews')
+    //GET route to find all reviews
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        Reviews.find(function (err, review) {
+            if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
+
+            res.json(review);
+        })
+    })
+
+    //get looking for specific movie
+    .get(authJwtController.isAuthenticated, function (req,res){
+        Movies.findOne({title: req.body.title}, function(err, found) {
+
+            if (err) {
+                res.json({message: "Read error, Please try again \n", error: err});
+            }
+
+            res.json(found);
+        })
+    })
+
+    .post(authJwtController.isAuthenticated, function (req, res) {
+        console.log(req.body);
+        const review = new Reviews();
+        review.reviewerName = req.body.reviewerName;
+        review.comment = req.body.comment;
+        review.rating = req.body.rating;
+
+                review.save(function (err) {
+                    if(err){res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});}
+
+                    //Else, enter in the review
+                    else{res.json({message: "The review has been saved to the database.\n"});}
+                })
     });
 
 //All other routes and methods will throw error
