@@ -215,11 +215,13 @@ router.route('/reviews')
 
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
+        const conditions = {_id: req.params.id};
         const review = new Reviews();
         review.reviewerName = req.body.reviewerName;
         review.comment = req.body.comment;
         review.rating = req.body.rating;
 
+        Reviews.updateOne(conditions, req.body)
                 review.save(function (err) {
                     if(err){res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});}
 
