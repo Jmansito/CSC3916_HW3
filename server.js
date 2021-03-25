@@ -207,6 +207,7 @@ router.route('/reviews')
 
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
+        const { token } = req.params;
         let id = req.body.movieid;
         let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
         Movies.findById(id, function(err, found) {
