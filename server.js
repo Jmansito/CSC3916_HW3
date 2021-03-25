@@ -215,7 +215,7 @@ router.route('/reviews')
 
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
-        const conditions = {title: req.params.title};
+        const conditions = {_id: req.params.id};
         const review = new Reviews();
 
       //  review.movieid = req.body.movieid;
@@ -225,13 +225,13 @@ router.route('/reviews')
 
 
         Reviews.updateOne(conditions, req.body)
-      //  Movies.findOne({movieid: req.body.movieid}, function(err, found) {
+        Movies.findOne({movieid: req.body.movieid}, function(err, found) {
 
-        //    if (err) {
-        //        res.json({message: "Read error, Please try again \n", error: err});
-         //   }
-         //   else
-          //      {
+            if (err) {
+                res.json({message: "Read error, Please try again \n", error: err});
+            }
+            else
+                {
                 review.save(function (err) {
                     if (err) {
                         res.json({
@@ -245,8 +245,8 @@ router.route('/reviews')
                         res.json({message: "The review has been saved to the database.\n"});
                     }
                 })
-          //  }
-      //  })
+            }
+        })
     });
 
 //All other routes and methods will throw error
