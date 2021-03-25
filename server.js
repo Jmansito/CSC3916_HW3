@@ -217,17 +217,34 @@ router.route('/reviews')
         console.log(req.body);
         const conditions = {_id: req.params.id};
         const review = new Reviews();
+
+        review.movieid = req.body.movieid;
         review.reviewerName = req.body.reviewerName;
         review.comment = req.body.comment;
         review.rating = req.body.rating;
 
+
         Reviews.updateOne(conditions, req.body)
+        Movies.findOne({movieid: req.body.movieid}, function(err, found) {
+
+            if (err) {
+                res.json({message: "Read error, Please try again \n", error: err});
+            } else {
                 review.save(function (err) {
-                    if(err){res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});}
+                    if (err) {
+                        res.json({
+                            message: "Please double check your entry, something was not entered correctly.\n",
+                            error: err
+                        });
+                    }
 
                     //Else, enter in the review
-                    else{res.json({message: "The review has been saved to the database.\n"});}
+                    else {
+                        res.json({message: "The review has been saved to the database.\n"});
+                    }
                 })
+            }
+        })
     });
 
 //All other routes and methods will throw error
