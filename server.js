@@ -206,17 +206,18 @@ router.route('/reviews')
     })
 
     .post(authJwtController.isAuthenticated, function (req, res) {
-        console.log(req.body);
-        const { token } = req.params;
+       // console.log(req.body);
+      //  const { token } = req.params;
+      //  let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
+
         let id = req.body.movieid;
-        let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
         Movies.findById(id, function(err, found) {
                 if (err) {
                     res.json({message: "Read error, Please try again \n", error: err});
                 } else if (found) {
                     const review = new Reviews();
 
-                    review.name = decoded.username;
+                 //   review.name = decoded.username;
                     review.movieid = req.body.movieid;
                     review.comment = req.body.comment;
                     review.rating = req.body.rating;
@@ -225,14 +226,16 @@ router.route('/reviews')
                         if (err) {
                             res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});
                             }else {
-                            Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
+                          //  Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
                                 if (err) {
                                     res.status(404).json({message: "Read error."});
                                 }
-                                //Else, enter in the review
-                                else{res.json({message: "The review has been saved to the database.\n"});}
-                            })
-                        }
+                          //  })
+
+                        //Else, enter in the review
+                    else{res.json({message: "The review has been saved to the database.\n"});}
+
+                    }
 
                     })
                 }
