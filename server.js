@@ -144,16 +144,16 @@ router.route('/movies')
                     }
             },
                 {
-                    $sort : {averageRating:-1}
+                    $sort: {averageRating: -1}
                 }
 
-            ],function(err,data){
-                if(err){
+            ], function (err, data) {
+                if (err) {
                     res.send(err);
-                }else{
+                } else {
                     res.json(data);
                 }
-            });
+            }).t
         }else {
             res.json(movie);
         }
