@@ -188,7 +188,7 @@ router.route('/movies/:movieid')
 
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
-            if(needReview == "true" && movie){
+            if(needReview === "true"){
                 Movies.aggregate([{
 
                     $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)},
@@ -201,21 +201,15 @@ router.route('/movies/:movieid')
                             as: "movies_review"
                         }
                 },
-                    {
-                        $sort: {averageRating: -1}
-                    }
+                    {$sort: {averageRating: -1}}
 
-                ], function (err, data) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.json(data);
-                    }
-                });
-            }else if(movie){
-                res.json(movie);
-            }
+                ],
+                    function (err, data) {if (err) {res.send(err);}
 
+                    else {res.json(data);}
+                }).toArray();
+
+            }else{res.json(movie);}
         })
     });
 
