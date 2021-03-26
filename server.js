@@ -57,7 +57,7 @@ router.post('/signup', function(req, res) {
 
         user.save(function(err){
             if (err) {
-                if (err.code == 11000)
+                if (err.code === 11000)
                     return res.json({ success: false, message: 'A user with that username already exists.'});
                 else
                     return res.json(err);
@@ -68,27 +68,27 @@ router.post('/signup', function(req, res) {
     }
 });
 
-router.post('/signin', function (req, res) {
+//post
+router.post('/signin', function(req, res) {
     var userNew = new User();
+    userNew.name = req.body.name;
     userNew.username = req.body.username;
     userNew.password = req.body.password;
 
     User.findOne({ username: userNew.username }).select('name username password').exec(function(err, user) {
-        if (err) {
-            res.send(err);
-        }
+        if (err) res.send(err);
 
-        user.comparePassword(userNew.password, function(isMatch) {
+        user.comparePassword(userNew.password, function(isMatch){
             if (isMatch) {
-                var userToken = { id: user.id, username: user.username };
+                var userToken = {id: user._id, username: user.username};
                 var token = jwt.sign(userToken, process.env.SECRET_KEY);
-                res.json ({success: true, token: 'JWT ' + token});
+                res.json({success: true, token: 'JWT ' + token});
             }
             else {
-                res.status(401).send({success: false, msg: 'Authentication failed.'});
+                res.status(401).send({success: false, message: 'Authentication failed.'});
             }
-        })
-    })
+        });
+    });
 });
 
 //routing for movies
