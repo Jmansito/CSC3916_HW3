@@ -188,7 +188,7 @@ router.route('/movies/:movieid')
 
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
-            if(needReview ==="true"){
+            if(needReview == "true"){
                 Movies.aggregate([{
 
                     $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)},
