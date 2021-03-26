@@ -280,7 +280,7 @@ router.route('/reviews')
                     review.comment = req.body.comment;
                     review.rating = req.body.rating;
 
-                    review.insertMany(function (err) {
+                    review.save(function (err) {
                         if (err) {
                             res.json({message: "Please double check your entry, something was not entered correctly.", error: err});
                             }else {
