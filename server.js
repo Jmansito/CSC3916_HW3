@@ -250,9 +250,6 @@ router.route('/reviews')
     //get looking for specific movie
     .get(authJwtController.isAuthenticated, function (req,res){
         console.log(req.body);
-        let reviews = false;
-
-
 
 
         Reviews.findOne({movieid: req.body.movieid}, function(err, review) {

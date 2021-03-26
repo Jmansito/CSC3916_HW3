@@ -22,7 +22,9 @@ let ReviewSchema = new Schema({
     //Review for the movie
     comment:{type:String, required:true},
     //Rating for the movie
-    rating:{type:Number,required:true},
+    rating:{type:Number,required:true,min: 1, max: 5},
+    //Name of reviewer
+    name:{type:String,required:true},
 
 });
 
