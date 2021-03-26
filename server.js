@@ -16,6 +16,7 @@ var cors = require('cors');
 var User = require('./Users');
 var Movies = require('./Movies');
 var Reviews = require('./Reviews');
+const mongoose = require('mongoose');
 
 var app = express();
 app.use(cors());
@@ -181,10 +182,10 @@ router.route('/movies/:movieid')
     //Required authentication for movie id.
     .get(authJwtController.isAuthenticated, function (req, res) {
         const id = req.params.movieid;
-
+        let needReview= req.query.reviews;
         //doing a findById here to check the id. If found then send the user the movie, else, throw the error
         Movies.findById(id, function (err, movie) {
-            let needReview= req.query.reviews;
+
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
             if(needReview ==="true"){
