@@ -282,7 +282,7 @@ router.route('/reviews')
 
                     review.save(function (err) {
                         if (err) {
-                            res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});
+                            res.json({message: "Please double check your entry, something was not entered correctly.", error: err});
                             }else {
                             Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
                                 if (err) {
