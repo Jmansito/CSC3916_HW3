@@ -294,7 +294,7 @@ router.route('/reviews')
 
                                    console.log(all_Reviews);
                                    all_Reviews.forEach(function(review){
-                                       avg += review.rating;
+                                      review.rating += avg;
                                        console.log(review);
                                    });
                                    avg = avg / all_Reviews.length;
