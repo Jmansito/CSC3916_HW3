@@ -18,7 +18,7 @@ mongoose.set('useCreateIndex', true);
 var ReviewSchema = new Schema({
 
     //id of the move
-    title:{type:String,required:true,index:{unique:true}},
+    movieid:{type:String,required:true,index:{unique:true}},
     //Review for the movie
     comment:{type:String, required:true},
     //Rating for the movie

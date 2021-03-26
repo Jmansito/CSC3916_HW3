@@ -207,19 +207,19 @@ router.route('/reviews')
     })
 
     .post(authJwtController.isAuthenticated, function (req, res) {
-       // console.log(req.body);
+        console.log(req.body);
       //  const { token } = req.params;
       //  let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
 
-        let title = req.body.title;
-        Movies.findOne(title, function(err, found) {
+        let id = req.body.movieid;
+        Movies.findById(id, function(err, found) {
                 if (err) {
                     res.json({message: "Read error, Please try again \n", error: err});
                 } else if (found) {
                     const review = new Reviews();
 
                  //   review.name = decoded.username;
-                    review.title = req.body.title;
+                    review.movieid = req.body.movieid;
                     review.comment = req.body.comment;
                     review.rating = req.body.rating;
 
