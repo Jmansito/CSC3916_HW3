@@ -196,7 +196,7 @@ router.route('/reviews')
 
     //get looking for specific movie
     .get(authJwtController.isAuthenticated, function (req,res){
-        Movies.findOne({title: req.body.title}, function(err, found) {
+        Reviews.findOne({title: req.body.title}, function(err, found) {
 
             if (err) {
                 res.json({message: "Read error, Please try again \n", error: err});
@@ -227,17 +227,16 @@ router.route('/reviews')
                         if (err) {
                             res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});
                             }else {
-                          //  Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
+                            Reviews.find({movieid: req.body.movieid}, function (err, all_Reviews) {
                                 if (err) {
                                     res.status(404).json({message: "Read error."});
                                 }
-                          //  })
-
-                        //Else, enter in the review
-                    else{res.json({message: "The review has been saved to the database.\n"});}
-
+                            else if(!all_Reviews){
+                                    //Else, enter in the review
+                               {res.json({message: "The review has been saved to the database.\n"});}
+                            }
+                        })
                     }
-
                     })
                 }
         })
