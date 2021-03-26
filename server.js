@@ -102,6 +102,7 @@ router.route('/movies')
         movie.genre = req.body.genre;
         movie.actorName = req.body.actorName;
         movie.actorCharacter = req.body.actorCharacter;
+        movie.averageRating = req.body.averageRating;
 
 
         //Check if the movie is in the database, then make sure three actors are in the entry
@@ -128,13 +129,36 @@ router.route('/movies')
     //GET route to find all movies
     .get(authJwtController.isAuthenticated, function (req, res) {
         Movies.find(function (err, movie) {
+            let needReview= req.query.reviews;
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
-            //I tried using .sort() using sort to try and fix the out of order printing my database is doing.
-            //I am not sure what is causing it to print out of order
+            if(needReview ==="true"){
+            Movies.aggregate([{
+                $lookup:
+                    {
+                        from: "reviews",
+                        localField: "_id",
+                        foreignField: "movieid",
+                        as: "movies_review"
+                    }
+            },
+                {
+                    $sort : {averageRating:-1}
+                }
+
+            ],function(err,data){
+                if(err){
+                    res.send(err);
+                }else{
+                    res.json(data);
+                }
+            });
+        }else {
             res.json(movie);
-        })
+        }
+
     })
+})
 
     //DELETE route for removing a movie
     .delete(authJwtController.isAuthenticated, function (req, res){
@@ -160,8 +184,37 @@ router.route('/movies/:movieid')
 
         //doing a findById here to check the id. If found then send the user the movie, else, throw the error
         Movies.findById(id, function (err, movie) {
-            if (err) res.send(err);
-            res.json(movie);
+            let needReview= req.query.reviews;
+            if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
+
+            if(needReview ==="true"){
+                Movies.aggregate([{
+
+                    $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)},
+
+                    $lookup:
+                        {
+                            from: "reviews",
+                            localField: "_id",
+                            foreignField: "movieid",
+                            as: "movies_review"
+                        }
+                },
+                    {
+                        $sort: {averageRating: -1}
+                    }
+
+                ], function (err, data) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.json(data);
+                    }
+                });
+            }else {
+                res.json(movie);
+            }
+
         })
     });
 
