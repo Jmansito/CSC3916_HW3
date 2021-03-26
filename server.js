@@ -196,20 +196,20 @@ router.route('/reviews')
 
     //get looking for specific movie
     .get(authJwtController.isAuthenticated, function (req,res){
-        Reviews.findOne({title: req.body.title}, function(err, found) {
+        Reviews.findOne({movieid: req.body.movieid}, function(err, review) {
 
             if (err) {
                 res.json({message: "Read error, Please try again \n", error: err});
             }
 
-            res.json(found);
+            res.json(review);
         })
     })
 
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
-      //  const { token } = req.params;
-      //  let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
+        const { token } = req.params;
+        let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
 
         let id = req.body.movieid;
         Movies.findById(id, function(err, found) {
@@ -218,7 +218,7 @@ router.route('/reviews')
                 } else if (found) {
                     const review = new Reviews();
 
-                 //   review.name = decoded.username;
+                    review.name = decoded.username;
                     review.movieid = req.body.movieid;
                     review.comment = req.body.comment;
                     review.rating = req.body.rating;
@@ -231,10 +231,9 @@ router.route('/reviews')
                                 if (err) {
                                     res.status(404).json({message: "Read error."});
                                 }
-                            else if(!all_Reviews){
-                                    //Else, enter in the review
+                            else
                                {res.json({message: "The review has been saved to the database.\n"});}
-                            }
+
                         })
                     }
                     })
