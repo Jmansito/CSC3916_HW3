@@ -9,8 +9,8 @@ chai.should();
 chai.use(chaiHttp);
 
 let login_details = {
-    name: 'test1',
-    username: 'email@email.com',
+    name: 'test11',
+    username: 'email1@email.com',
     password: '123@abc'
 }
 

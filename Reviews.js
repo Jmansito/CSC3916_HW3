@@ -15,7 +15,7 @@ try {
 mongoose.set('useCreateIndex', true);
 
 //Making review schema with requirements for each parameter
-var ReviewSchema = new Schema({
+let ReviewSchema = new Schema({
 
     //id of the move
     movieid:{type:String,required:true,index:{unique:true}},

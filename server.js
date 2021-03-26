@@ -196,22 +196,27 @@ router.route('/reviews')
 
     //get looking for specific movie
     .get(authJwtController.isAuthenticated, function (req,res){
+        console.log(req.body);
+        let reviews = false;
+
+
+
+
         Reviews.findOne({movieid: req.body.movieid}, function(err, review) {
 
-            if (err) {
-                res.json({message: "Read error, Please try again \n", error: err});
-            }
+            if (err) {res.json({message: "Read error, Please try again \n", error: err});}
 
             res.json(review);
         })
     })
 
     .post(authJwtController.isAuthenticated, function (req, res) {
-        console.log(req.body);
-        const { token } = req.params;
-        let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
 
+        //console.log(req.body);
+        let token = req.headers.authorization;
+        let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
         let id = req.body.movieid;
+
         Movies.findById(id, function(err, found) {
                 if (err) {
                     res.json({message: "Read error, Please try again \n", error: err});
