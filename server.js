@@ -134,32 +134,32 @@ router.route('/movies')
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
             if(needReview ==="true"){
-            Movies.aggregate([{
-                $lookup:
+                Movies.aggregate([
                     {
-                        from: "reviews",
-                        localField: "_id",
-                        foreignField: "movieid",
-                        as: "movies_review"
+                        $lookup:{
+                            from:'reviews',
+                            localField: '_id',
+                            foreignField: 'movieid',
+                            as: 'Movies_Reviews'
+                        }
+                    },
+                    {
+                        $sort : {averageRating:-1}
                     }
-            },
-                {
-                    $sort: {averageRating: -1}
-                }
 
-            ], function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.json(data);
-                }
-            }).t
-        }else {
-            res.json(movie);
-        }
+                ],function(err,data){
+                    if(err){
+                        res.send(err);
+                    }else{
+                        res.json(data);
+                    }
+                });
+            }else {
+                res.json(movie);
+            }
 
+        })
     })
-})
 
     //DELETE route for removing a movie
     .delete(authJwtController.isAuthenticated, function (req, res){
@@ -213,7 +213,7 @@ router.route('/movies/:movieid')
                     }
                 });
             }else {
-               // res.json(movie);
+                res.json(movie);
             }
 
         })
