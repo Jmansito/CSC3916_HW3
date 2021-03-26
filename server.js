@@ -298,16 +298,6 @@ router.route('/reviews')
                                        console.log(review);
                                    });
                                    avg = avg / all_Reviews.length;
-
-                                   Movies.update(
-                                       {_id: id},
-                                       {$set: {rating: avg}}, function (err, doc){
-                                           if(err){
-                                               res.json({error: err})
-                                           }
-
-                                       }
-                                   )
                                    res.json({message: "The review has been saved to the database.\n"});}
 
                         })
