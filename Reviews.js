@@ -17,7 +17,7 @@ mongoose.set('useCreateIndex', true);
 //Making review schema with requirements for each parameter
 let ReviewSchema = new Schema({
 
-    //id of the move
+    //id of the movie
     movieid:{type:mongoose.Schema.ObjectId,required:true},
     //Review for the movie
     comment:{type:String, required:true},
