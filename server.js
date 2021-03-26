@@ -201,13 +201,13 @@ router.route('/movies/:movieid')
                             as: "movies_review"
                         }
                 },
-                    {$sort: {averageRating: -1}}
+                  //  {$sort: {averageRating: -1}}
 
                 ],
                     function (err, data) {if (err) {res.send(err);}
 
                     else {res.json(data);}
-                }).toArray();
+                });
 
             }else{res.json(movie);}
         })
