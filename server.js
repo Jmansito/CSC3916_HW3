@@ -212,7 +212,7 @@ router.route('/movies/:movieid')
                     }
                 });
             }else {
-                res.json(movie);
+               // res.json(movie);
             }
 
         })
@@ -263,7 +263,8 @@ router.route('/reviews')
     .post(authJwtController.isAuthenticated, function (req, res) {
 
         //console.log(req.body);
-        let token = req.headers.authorization;
+        let usertoken = req.headers.authorization;
+        let token = usertoken.split(' ');
         let decoded = jwt.verify(token[1], process.env.SECRET_KEY);
         let id = req.body.movieid;
 
@@ -287,7 +288,16 @@ router.route('/reviews')
                                     res.status(404).json({message: "Read error."});
                                 }
                             else
-                               {res.json({message: "The review has been saved to the database.\n"});}
+                               {
+                                   let avg = 0;
+
+                                   console.log(all_Reviews);
+                                   all_Reviews.forEach(function(review){
+                                       avg += review.rating;
+                                       console.log(review);
+                                   });
+                                   avg = avg / all_Reviews.length;
+                                   res.json({message: "The review has been saved to the database.\n"});}
 
                         })
                     }
