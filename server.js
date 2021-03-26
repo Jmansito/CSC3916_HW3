@@ -182,17 +182,23 @@ router.route('/movies/:movieid')
     //Required authentication for movie id.
     .get(authJwtController.isAuthenticated, function (req, res) {
         const id = req.params.movieid;
-        let needReview= req.query.reviews;
+        let addReview= req.query.reviews;
         //doing a findById here to check the id. If found then send the user the movie, else, throw the error
         Movies.findById(id, function (err, movie) {
 
+            //if the movie is not there, throw error
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
-            if(needReview === "true"){
-                Movies.aggregate([{
+            //aggregate the movie and the review
+            if(addReview === "true"){
+                Movies.aggregate([
+                    {
 
-                    $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)},
-
+                    //Find the movie that matches the movieid parameter sent by user
+                    $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)}
+                    },
+                        {
+                    //lookup aggregation
                     $lookup:
                         {
                             from: "reviews",
@@ -201,13 +207,15 @@ router.route('/movies/:movieid')
                             as: "movies_review"
                         }
                 },
-                  //  {$sort: {averageRating: -1}}
+                   {
+                       $sort: {averageRating: -1}
+                   }
 
                 ],
                     function (err, data) {if (err) {res.send(err);}
 
                     else {res.json(data);}
-                });
+                }).exec
 
             }else{res.json(movie);}
         })
