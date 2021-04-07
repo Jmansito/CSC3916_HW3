@@ -29,7 +29,9 @@ var MovieSchema = new Schema({
 
     //actors: actorName and actorCharacter... I was having trouble making them work as just actors
     actorName: { type: [String],required: true },
-    actorCharacter: { type: [String],required: true }
+    actorCharacter: { type: [String],required: true },
+
+    imageUrl: { data: Buffer, contentType: String }
 
 });
 
