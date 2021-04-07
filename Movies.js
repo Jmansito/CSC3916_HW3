@@ -31,8 +31,9 @@ var MovieSchema = new Schema({
     actorName: { type: [String],required: true },
     actorCharacter: { type: [String],required: true },
 
-    imageUrl: { data: Buffer, contentType: String }
-    //sdsd
+    imageUrl: { data: Buffer, contentType: String },
+
+    avg:{ type: Number, required:false}
 
 });
 

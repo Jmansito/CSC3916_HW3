@@ -144,7 +144,7 @@ router.route('/movies')
                         }
                     },
                     {
-                        $sort : {averageRating:-1}
+                        $sort : {avg:-1}
                     }
 
                 ],function(err,data){
@@ -208,7 +208,7 @@ router.route('/movies/:movieid')
                         }
                 },
                    {
-                       $sort: {averageRating: -1}
+                       $sort: {avg: -1}
                    }
 
                 ],
