@@ -25,6 +25,7 @@ let ReviewSchema = new Schema({
     rating:{type:Number,required:true,min: 1, max: 5},
     //Name of reviewer
     name:{type:String,required:true},
+    avg:{ type: Number, required:false}
 
 });
 

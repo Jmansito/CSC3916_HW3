@@ -33,7 +33,7 @@ var MovieSchema = new Schema({
 
     imageUrl: { data: Buffer, contentType: String },
 
-    avg:{ type: Number, required:false}
+  //  avg:{ type: Number, required:false}
 
 });
 
