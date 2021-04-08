@@ -300,7 +300,7 @@ router.route('/reviews')
                                        console.log(review);
                                    });
                                    avg = avg / all_Reviews.length;
-                                   res.json({message: "The review has been saved to the database.\n"});}
+                                   res.json({message: "The review has been saved to the database."});}
 
                         })
                     }
