@@ -103,7 +103,7 @@ router.route('/movies')
         movie.genre = req.body.genre;
         movie.actorName = req.body.actorName;
         movie.actorCharacter = req.body.actorCharacter;
-        movie.averageRating = req.body.averageRating;
+        movie.avg = req.body.avg;
 
 
         //Check if the movie is in the database, then make sure three actors are in the entry
