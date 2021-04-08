@@ -101,8 +101,8 @@ router.route('/movies')
         movie.title = req.body.title;
         movie.year_Released = req.body.year_Released;
         movie.genre = req.body.genre;
-        movie.actorName = req.body.actorName;
-        movie.actorCharacter = req.body.actorCharacter;
+        movie.actors = req.body.actors;
+        movie.imageUrl= req.body.imageUrl;
         movie.avg = req.body.avg;
 
 
@@ -113,15 +113,15 @@ router.route('/movies')
             if(err){res.json({message: "Read error \n", error: err});}
             //if found then throw error, no repeats
 
-            else if(found){res.json({message: "The movie you entered is already in the database\n"});}
+            else if(found){res.json({message: "The movie you entered is already in the database"});}
             //Error if three actors are not entered per requirements
-            else if (movie.actorName.length < 3 || movie.actorCharacter.length < 3 ){res.json({message: "Please enter in 3 actors\n"});}
+            else if (movie.actors.length < 3  ){res.json({message: "Please enter in 3 actors"});}
             else{
                 movie.save(function (err) {
-                    if(err){res.json({message: "Please double check your entry, something was not entered correctly.\n", error: err});}
+                    if(err){res.json({message: "Please double check your entry, something was not entered correctly.", error: err});}
 
                     //Else, enter in the movie
-                    else{res.json({message: "The movie has been saved to the database.\n"});}
+                    else{res.json({message: "The movie has been saved to the database."});}
                 })
             }
         });
