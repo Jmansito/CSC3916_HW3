@@ -27,9 +27,7 @@ var MovieSchema = new Schema({
     //Genre follows the requirements of the this list. May change to accept a string instead of this array in case there are other categories not on this list
     genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller', 'Western'] },
 
-    //actors: actorName and actorCharacter... I was having trouble making them work as just actors
-    actorName: { type: [String],required: true },
-    actorCharacter: { type: [String],required: true },
+    actors: { type: [{actorName: String, actorCharacter: String}], required: true },
 
     imageUrl: { data: Buffer, contentType: String },
 
