@@ -140,7 +140,7 @@ router.route('/movies')
                             from:'reviews',
                             localField: '_id',
                             foreignField: 'movieid',
-                            as: 'Movies_Reviews'
+                            as: 'Reviews'
                         }
                     },
                     {
@@ -148,16 +148,13 @@ router.route('/movies')
                     }
 
                 ],function(err,data){
-                    if(err){
-                        res.send(err);
-                    }else{
-                        res.json(data);
-                    }
+
+                    if(err){res.send(err);}
+                    else{res.json(data);}
                 });
             }else {
                 res.json(movie);
             }
-
         })
     })
 
@@ -181,45 +178,42 @@ router.route('/movies/:movieid')
 
     //Required authentication for movie id.
     .get(authJwtController.isAuthenticated, function (req, res) {
-        const id = req.params.movieid;
-        let addReview= req.query.reviews;
-        //doing a findById here to check the id. If found then send the user the movie, else, throw the error
+        var id = req.params.movieid;
+        var needReview = req.query.reviews;
         Movies.findById(id, function (err, movie) {
-
-            //if the movie is not there, throw error
-            if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
-
+            if (err) {
+                res.json({message: " movie is  not found"});
+            }
+            else {
             //aggregate the movie and the review
-            if(addReview === "true"){
-                Movies.aggregate([
-                    {
-
-                    //Find the movie that matches the movieid parameter sent by user
-                    $match: {'_id': mongoose.Types.ObjectId(req.params.movieid)}
-                    },
+            if(needReview ==="true"){
+                Movies.aggregate(
+                    [
                         {
-                    //lookup aggregation
-                    $lookup:
+                            $match:{'_id': mongoose.Types.ObjectId(req.params.movieid)}
+                        },
                         {
-                            from: "reviews",
-                            localField: "_id",
-                            foreignField: "movieid",
-                            as: "movies_review"
+                            $lookup:{
+                                from: 'reviews',
+                                localField: '_id',
+                                foreignField: 'movieid',
+                                as: 'Reviews'
+                            }
                         }
-                },
-                   {
-                       $sort: {avg: -1}
-                   }
-
-                ],
-                    function (err, data) {if (err) {res.send(err);}
-
-                    else {res.json(data);}
-                }).exec
-
-            }else{res.json(movie);}
-        })
-    });
+                    ],function(err,data){
+                        if(err){
+                            res.send(err);
+                        }
+                        else{
+                            res.json(data);
+                        }
+                    });
+            }  else{
+                res.json(movie);
+            }
+        }
+    })
+});
 
 //New route for PUT. Updating a movie
 router.route('/movies/:id')
@@ -295,9 +289,9 @@ router.route('/reviews')
                                    let avg = 0;
 
                                    console.log(all_Reviews);
-                                   all_Reviews.forEach(function(review){
+                                   all_Reviews.forEach(function(comment){
                                        avg += review.rating;
-                                       console.log(review);
+                                       console.log(comment);
                                    });
                                    avg = avg / all_Reviews.length;
                                    res.json({message: "The review has been saved to the database."});}

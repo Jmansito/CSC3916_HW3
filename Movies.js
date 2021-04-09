@@ -18,19 +18,14 @@ mongoose.set('useCreateIndex', true);
 var MovieSchema = new Schema({
 
     //Title of movie, string, must be a unique entry to avoid repeats
-   // title:{type:String},
+    // title:{type:String},
     title:{type:String,required:true,index:{unique:true}},
-
     //Year of the movie accepts a number since the dates were just a year
     year_Released:{type:Number, required:true},
-
     //Genre follows the requirements of the this list. May change to accept a string instead of this array in case there are other categories not on this list
     genre:{type:String,required:true,enum:['Action', 'Adventure', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Mystery', 'Sci-Fi', 'Thriller', 'Western'] },
-
     actors: { type: [{actorName: String, actorCharacter: String}], required: true },
-
-    imageUrl: { data: Buffer, contentType: String },
-
+    imageUrl: {type: String, required: false},
     avg:{ type: Number, required:false}
 
 });
