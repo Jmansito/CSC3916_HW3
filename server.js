@@ -133,7 +133,7 @@ router.route('/movies')
             let needReview= req.query.reviews;
             if(err) res.json({message: "Read Error. Sorry, please try again. \n", error: err});
 
-            if(needReview ==="true"){
+            if(needReview === "true"){
                 Movies.aggregate([
                     {
                         $lookup:{
